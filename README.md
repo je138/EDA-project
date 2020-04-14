@@ -30,107 +30,107 @@ Data files are named with the following convention:  sitelocation_source_descrip
 ### Raw data
 **Roanoke Rapids, Jamesville, Oak City**
 
-Column name: agency_cd
-Description: Agency code, all values are "USGS"
-Class: character
+Column name: agency_cd;
+Description: Agency code, all values are "USGS";
+Class: character;
 Units: none
 
-Column name: site_no
-Description: Site number; unique identifier for USGS stations
-Class: character
+Column name: site_no;
+Description: Site number, unique identifier for USGS stations;
+Class: character;
 Units: none
 
-Column name: Date
-Description: Date in "yy-mm-dd" format
-Class: date
+Column name: Date;
+Description: Date in "yy-mm-dd" format;
+Class: date;
 Units: none
 
-Column name: X_00010_00003
-Description: Water temperature
-Class: numeric
+Column name: X_00010_00003;
+Description: Water temperature;
+Class: numeric;
 Units: degrees C
 
-Column name: X_00010_00003_cd
-Description: Qualification codes; "A" - Approved for publication; "P" - Provisional data subject to revision
-Class: character
+Column name: X_00010_00003_cd;
+Description: Qualification codes, "A" - Approved for publication, "P" - Provisional data subject to revision;
+Class: character;
 Units: none
 
-Column name: X_00065_00003
-Description: Gage height
-Class: numeric
+Column name: X_00065_00003;
+Description: Gage height;
+Class: numeric;
 Units: feet
 
-Column name: X_00065_00003_cd
-Description: Qualification codes; "A" - Approved for publication; "P" - Provisional data subject to revision
-Class: character
+Column name: X_00065_00003_cd;
+Description: Qualification codes, "A" - Approved for publication, "P" - Provisional data subject to revision;
+Class: character;
 Units: none
 
-Column name: X_00095_00003
-Description: Specific conductance, water, unfiltered, microsiemens per centimeter at 25 degrees Celsius
-Class: numeric
+Column name: X_00095_00003;
+Description: Specific conductance, water, unfiltered, microsiemens per centimeter at 25 degrees Celsius;
+Class: numeric;
 Units: uS/cm at 25C
 
-Column name: X_00095_00003_cd
-Description: Qualification codes; "A" - Approved for publication; "P" - Provisional data subject to revision
-Class: character
+Column name: X_00095_00003_cd;
+Description: Qualification codes, "A" - Approved for publication, "P" - Provisional data subject to revision;
+Class: character;
 Units: none
 
-Column name: X_00300_00003
-Description: Dissolved oxygen, water, unfiltered, milligrams per liter
-Class: numeric
+Column name: X_00300_00003;
+Description: Dissolved oxygen, water, unfiltered, milligrams per liter;
+Class: numeric;
 Units: mg/L
 
-Column name: X_00300_00003_cd
-Description: Qualification codes; "A" - Approved for publication; "P" - Provisional data subject to revision
-Class: character
+Column name: X_00300_00003_cd;
+Description: Qualification codes, "A" - Approved for publication, "P" - Provisional data subject to revision;
+Class: character;
 Units: none
 
-Column name: X_00060_00003
-Description: Discharge, mean daily, cubic feet per second
-Class: numeric
+Column name: X_00060_00003;
+Description: Discharge, mean daily, cubic feet per second;
+Class: numeric;
 Units: ft^3/s
 
-Column name: X_00060_00003_cd
-Description: Qualification codes; "A" - Approved for publication; "P" - Provisional data subject to revision
-Class: character
+Column name: X_00060_00003_cd;
+Description: Qualification codes, "A" - Approved for publication, "P" - Provisional data subject to revision;
+Class: character;
 Units: none
 
 ### Processed Data
 **Roanoke Rapids, Jamesville, Oak City**
 
-Column name: site_no
-Description: Site number; unique identifier for USGS stations
-Class: character
+Column name: site_no;
+Description: Site number, unique identifier for USGS stations;
+Class: character;
 Units: none
 
-Column name: Date
-Description: Date in "yy-mm-dd" format
-Class: date
+Column name: Date;
+Description: Date in "yy-mm-dd" format;
+Class: date;
 Units: none
 
-Column name: mean.daily.discharge
-Description: Discharge, mean daily, cubic feet per second
-Class: numeric
+Column name: mean.daily.discharge;
+Description: Discharge, mean daily, cubic feet per second;
+Class: numeric;
 Units: ft^3/s
 
-Column name: gage.height
-Description: Gage height
-Class: numeric
+Column name: gage.height;
+Description: Gage height;
+Class: numeric;
 Units: feet
 
-Column name: temperature
-Description: Water temperature
-Class: numeric
+Column name: temperature;
+Description: Water temperature;
+Class: numeric;
 Units: degrees C
 
-Column name: specific.cond
-Description: Specific conductance, water, unfiltered, microsiemens per centimeter at 25 degrees Celsius
-Class: numeric
+Column name: specific.cond;
+Description: Specific conductance, water, unfiltered, microsiemens per centimeter at 25 degrees Celsius;
+Class: numeric;
 Units: uS/cm at 25C
 
-Column name: DO
-Description: Dissolved oxygen, water, unfiltered, milligrams per liter
-Class: numeric
+Column name: DO;
+Description: Dissolved oxygen, water, unfiltered, milligrams per liter;
+Class: numeric;
 Units: mg/L
 
 Additional information at:
