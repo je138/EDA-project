@@ -27,8 +27,8 @@ Data files are named with the following convention:  sitelocation_source_descrip
 
 ## Metadata
 
-**Raw data**
-# Roanoke Rapids, Jamesville, Oak City
+### Raw data
+**Roanoke Rapids, Jamesville, Oak City**
 
 Column name: agency_cd
 Description: Agency code, all values are "USGS"
@@ -95,8 +95,8 @@ Description: Qualification codes; "A" - Approved for publication; "P" - Provisio
 Class: character
 Units: none
 
-**Processed Data**
-# Roanoke Rapids, Jamesville, Oak City
+### Processed Data
+**Roanoke Rapids, Jamesville, Oak City**
 
 Column name: site_no
 Description: Site number; unique identifier for USGS stations
