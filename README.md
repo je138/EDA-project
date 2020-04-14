@@ -9,13 +9,15 @@ Final Project for Environmental Data Analytics
 
 <describe the purpose of this repository, the information it contains, and any relevant analysis goals. What, why, where, when, how?>
 
+QRR implemented in June 2016
+
 ## Investigators
 
 <name(s), affiliation(s), contact information, roles (if applicable)>
 
 ## Keywords
 
-<add relevant keywords here>
+river, flow, QRR, quasi-run-of-river, Army Corps, discharge, water quality, dissolved oxygen, temperature
 
 ## Database Information
 
@@ -32,11 +34,120 @@ Final Project for Environmental Data Analytics
 
 ## Metadata
 
-<For each data file in the repository, describe the data contained in each column. Include the column name, a description of the information, the class of data, and any units associated with the data. Create a list or table for each data file.> 
+**Raw data**
+# Roanoke Rapids, Jamesville, Oak City
+
+Column name: agency_cd
+Description: Agency code, all values are "USGS"
+Class: character
+Units: none
+
+Column name: site_no
+Description: Site number; unique identifier for USGS stations
+Class: character
+Units: none
+
+Column name: Date
+Description: Date in "yy-mm-dd" format
+Class: date
+Units: none
+
+Column name: X_00010_00003
+Description: Water temperature
+Class: numeric
+Units: degrees C
+
+Column name: X_00010_00003_cd
+Description: Qualification codes; "A" - Approved for publication; "P" - Provisional data subject to revision
+Class: character
+Units: none
+
+Column name: X_00065_00003
+Description: Gage height
+Class: numeric
+Units: feet
+
+Column name: X_00065_00003_cd
+Description: Qualification codes; "A" - Approved for publication; "P" - Provisional data subject to revision
+Class: character
+Units: none
+
+Column name: X_00095_00003
+Description: Specific conductance, water, unfiltered, microsiemens per centimeter at 25 degrees Celsius
+Class: numeric
+Units: uS/cm at 25C
+
+Column name: X_00095_00003_cd
+Description: Qualification codes; "A" - Approved for publication; "P" - Provisional data subject to revision
+Class: character
+Units: none
+
+Column name: X_00300_00003
+Description: Dissolved oxygen, water, unfiltered, milligrams per liter
+Class: numeric
+Units: mg/L
+
+Column name: X_00300_00003_cd
+Description: Qualification codes; "A" - Approved for publication; "P" - Provisional data subject to revision
+Class: character
+Units: none
+
+Column name: X_00060_00003
+Description: Discharge, mean daily, cubic feet per second
+Class: numeric
+Units: ft^3/s
+
+Column name: X_00060_00003_cd
+Description: Qualification codes; "A" - Approved for publication; "P" - Provisional data subject to revision
+Class: character
+Units: none
+
+**Processed Data**
+# Roanoke Rapids, Jamesville, Oak City
+
+Column name: site_no
+Description: Site number; unique identifier for USGS stations
+Class: character
+Units: none
+
+Column name: Date
+Description: Date in "yy-mm-dd" format
+Class: date
+Units: none
+
+Column name: mean.daily.discharge
+Description: Discharge, mean daily, cubic feet per second
+Class: numeric
+Units: ft^3/s
+
+Column name: gage.height
+Description: Gage height
+Class: numeric
+Units: feet
+
+Column name: temperature
+Description: Water temperature
+Class: numeric
+Units: degrees C
+
+Column name: specific.cond
+Description: Specific conductance, water, unfiltered, microsiemens per centimeter at 25 degrees Celsius
+Class: numeric
+Units: uS/cm at 25C
+
+Column name: DO
+Description: Dissolved oxygen, water, unfiltered, milligrams per liter
+Class: numeric
+Units: mg/L
 
 ## Scripts and code
 
 <list any software scripts/code contained in the repository and a description of their purpose.>
+
+USGS_dataRetrieval.R contains the script used for pulling relevant river gage data from the USGS website (using the dataRetrieval R package).
+
+USGS_dataProcessing.R contains the script used for processing the raw data. The data was processed by removing irrelevant
+columns, selecting time range of interest, renaming columns, and setting correct classes for variables.
 
 ## Quality assurance/quality control
 
