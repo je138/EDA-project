@@ -3,6 +3,7 @@ library(tidyverse)
 library(trend)
 library(agricolae)
 library(FSA)
+library(GGally)
 
 
 ## Importing data
@@ -77,6 +78,11 @@ ggplot(roanoke.ts.components) +
 ## Combining roanoke rapids and oak city data frames
 rr.oakcity <- left_join(roanokerapids.discharge, oakcity.gage, by = "Date")
 
+## Correlation matrix
+
+scatterplot.matrix <- ggpairs(rr.oakcity, columns = c(4,9,11,12))
+scatterplot.matrix
+
 ## Running regressions
 conductance.regression <- lm(rr.oakcity$specific.cond ~ rr.oakcity$mean.daily.discharge)
 summary(conductance.regression)
@@ -87,6 +93,7 @@ summary(temp.regression)
 DO.regression <- lm(rr.oakcity$DO ~ rr.oakcity$mean.daily.discharge)
 summary(DO.regression)
 # Coeff has p-value < .05; mean daily discharge is a significant predictor of dissolved oxygen
-## The coefficients for all three regressions were very small, indicating a significant but very weak trend
+## The coefficients for all three regressions were very small, indicating a significant but weak trend
+
 
 
