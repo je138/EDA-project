@@ -184,7 +184,33 @@ The scatterplot matrix shows that temperature and dissolved oxygen are highly ne
 
 ## Question 1: Is mean daily discharge at the Roanoke Rapids gage station significantly different between the pre-QRR and post-QRR implementation periods?
 
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Line graph of mean daily discharge over time with time series trend (red) and line of best fit for trend (blue)."}
+#### Time series analysis
+## Making time series
+roanokerapids.discharge.ts <- ts(roanokerapids.discharge[[4]], frequency = 365)
 
+## Decomposing time series into components
+roanokerapids.ts.decomposed <- stl(roanokerapids.discharge.ts, s.window = 365)
+
+## Converting components to data frame
+roanoke.ts.components <- as.data.frame(roanokerapids.ts.decomposed$time.series[,1:3])
+## Adding original data and dates
+roanoke.ts.components <- roanoke.ts.components %>%
+  mutate(original = roanokerapids.discharge$mean.daily.discharge,
+         Date = roanokerapids.discharge$Date)
+
+discharge.regression <- lm(rr.oakcity$mean.daily.discharge ~ rr.oakcity$qrr)
+summary(discharge.regression)
+
+## Graphing original data with trend
+ggplot(roanoke.ts.components) +
+  geom_line(aes(x= Date, y=original)) +
+  geom_smooth(aes(x= Date, y= trend), method = lm) +
+  geom_line(aes(x=Date, y=trend), color = "red") +
+  ylab(expression(paste("Discharge (ft"^"3","/s)")))
+```
+
+The above line graph shows a red trend line from the decomposed time series of mean daily discharge at the Roanoke Rapids gage station. The blue line of best fit for the trend line illustrates a positive trend in mean daily discharge.
 
 
 ## Question 2: How does discharge relate to downstream water quality indicators?

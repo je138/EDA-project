@@ -78,6 +78,7 @@ roanoke.ts.components <- roanoke.ts.components %>%
 ## Graphing original data with trend
 ggplot(roanoke.ts.components) +
   geom_line(aes(x= Date, y=original)) +
+  geom_smooth(aes(x= Date, y= trend), method = lm) +
   geom_line(aes(x=Date, y=trend), color = "red") +
   ylab(expression(paste("Discharge (ft"^"3","/s)")))
 
@@ -102,5 +103,16 @@ summary(DO.regression)
 # Coeff has p-value < .05; mean daily discharge is a significant predictor of dissolved oxygen
 ## The coefficients for all three regressions were very small, indicating a significant but weak trend
 
+DO.temp.interaction.regression <- lm(rr.oakcity$DO ~ rr.oakcity$mean.daily.discharge*rr.oakcity$temperature)
+summary(DO.temp.interaction.regression)
+## Mean daily discharge is no longer a significant predictor of dissolved oxygen when interaction between
+## temp and discharge is included
+
+test <- lm(rr.oakcity$temperature ~ roanoke.ts.components$trend)
+summary(test)
 
 
+### ANOVA tests on water quality indicators
+
+test2 <- kruskal.test(rr.oakcity$temperature ~ rr.oakcity$qrr)
+test2
