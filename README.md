@@ -3,9 +3,9 @@ Final Project for Environmental Data Analytics
 
 ## Summary
 
-In June 2016, the US Army Corps of Engineers began implementing a new quasi-run-of-river (QRR) floodwater management regime for the Roanoke River. The purpose of this analysis is to assess any difference in maximum and mean monthly discharges at the Roanoke Rapids gage station before and after the QRR was implemented. Additionally, I will evaluate whether any changes in discharge relate to changes in downstream water quality indicators (DO, temperature, specific conductance).
+In June 2016, the US Army Corps of Engineers began implementing a new quasi-run-of-river (QRR) floodwater management regime for the Roanoke River. The purpose of this analysis is to assess any change in mean daily discharges at the Roanoke Rapids gage station before and after the QRR was implemented. Additionally, I will evaluate whether any changes in discharge relate to changes in downstream water quality indicators (DO, temperature, specific conductance).
 
-The following data is contained in this repository: daily discharge and gage height at the Roanoke Rapids gage station; gage height, dissolved oxygen, water temperature, and specific conductance at the downstream gage stations near Oak City and Jamesville; locations of three gage station sites.
+The following data is contained in this repository: daily discharge and gage height at the Roanoke Rapids gage station; gage height, dissolved oxygen, water temperature, and specific conductance at the downstream gage stations near Oak City; locations of two gage station sites.
 
 ## Investigators
 
@@ -28,7 +28,7 @@ Data files are named with the following convention:  sitelocation_source_descrip
 ## Metadata
 
 ### Raw data
-**Roanoke Rapids, Jamesville, Oak City**
+**Roanoke Rapids and Oak City**
 
 Column name: agency_cd;
 Description: Agency code, all values are "USGS";
@@ -96,7 +96,7 @@ Class: character;
 Units: none
 
 ### Processed Data
-**Roanoke Rapids, Jamesville, Oak City**
+**Roanoke Rapids and Oak City**
 
 Column name: site_no;
 Description: Site number, unique identifier for USGS stations;
