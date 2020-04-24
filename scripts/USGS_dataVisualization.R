@@ -35,7 +35,7 @@ plot(roanokerapids_ts_decomposed)
 ## Plotting daily discharges over time with marker for QRR implementation
 ggplot(data = roanokerapids_discharge, aes(x= Date, y= mean.daily.discharge)) +
   geom_line() +
-  ylab("Mean Daily Discharge (cubic feet/second)") +
+  ylab(expression(paste("Mean Daily Discharge (ft"^"3","/s)"))) +
   geom_vline(data = roanokerapids_discharge, 
              xintercept = as.numeric(roanokerapids_discharge$Date[3196]), color = "red",
              linetype = 2)
@@ -141,9 +141,9 @@ ggplot(data = roanokerapids_discharge, aes(lty=roanokerapids_discharge$qrr)) +
 ## Visualizing the days where mean daily discharge exceeded 20,000 cfs
 ggplot(data = rr.oakcity.join, aes(x= Date, y= mean.daily.discharge, color = over.20k.cfs)) +
   geom_point() +
-  ylab("Mean Daily Discharge (cubic ft/sec)") +
-  labs(color = "Over 20,000 cfs?") +
-  scale_color_brewer(palette = "BuGn", direction = 1) +
+  ylab(expression(paste("Mean Daily Discharge (ft"^"3","/s)"))) +
+  labs(color = "Over 20,000 cfs?", size = 8) +
+  scale_color_brewer(palette = 2, direction = 1) +
   geom_vline(data = roanokerapids_discharge, 
              xintercept = as.numeric(roanokerapids_discharge$Date[3196]), color = "red",
              linetype = 2) +
@@ -213,12 +213,12 @@ sc <- ggplot(data = oakcity_USGS_processed, aes(x=Date, y= specific.cond)) +
              linetype = 2) +
   geom_smooth(method = lm, size = 0.5) +
   xlab("") +
-  theme(axis.title.y = element_text(vjust = 2, hjust = 0.75, size = 11))
+  theme(axis.title.y = element_text(vjust = 2, hjust = 0.85, size = 11))
 
 ## Visualizing temperature over time at Oak City gage station
 temp <- ggplot(data = oakcity_USGS_processed, aes(x= Date, y= temperature)) +
   geom_line() +
-  ylab(expression(paste("Temperature", ~degree, "C"))) +
+  ylab(expression(paste("Temperature"))) +
   geom_vline(data = roanokerapids_discharge, 
              xintercept = as.numeric(roanokerapids_discharge$Date[3196]), color = "red",
              linetype = 2) +

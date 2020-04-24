@@ -5,9 +5,9 @@ output:
     fig_caption: yes
     number_sections: yes
 geometry: margin=2.54cm
-title: "Insert title of project here"
-subtitle: "Web address for GitHub repository"
-author: "Name"
+title: "Effect of Quasi-Run-of-River Implementation on Roanoke River Discharge and Water Quality"
+subtitle: "https://github.com/je138/EDA-project.git"
+author: "Jack Eynon"
 fontsize: 12pt
 mainfont: Times New Roman
 
@@ -23,31 +23,158 @@ mainfont: Times New Roman
 
 ```{r setup, include=FALSE}
 # Set your working directory
-
+setwd("/Users/jackeynon/Courses/EnvDataAnalytics/Environmental_Data_Analytics_2020/EDA-project")
 # Load your packages
-
+library(tidyverse)
+library(stringr)
+library(lubridate)
+library(trend)
+library(agricolae)
+library(FSA)
+library(GGally)
+library(trend)
+library(zoo)
+library(cowplot)
+library(knitr)
 # Set your ggplot theme
-
+mytheme <- theme_classic(base_size = 14) +
+  theme(axis.text = element_text(color = "black"), 
+        legend.position = "top")
+theme_set(mytheme)
 # Load your datasets
-
+roanokerapids.discharge <- read.csv("./Data/processedData/roanoke_rapids_USGS_processed.csv")
+oakcity.gage <- read.csv("./Data/processedData/oakcity_USGS_processed.csv")
+roanokerapids.discharge$Date <- as.Date(roanokerapids.discharge$Date, format = "%Y-%m-%d")
+roanokerapids.discharge$mean.daily.discharge <- as.numeric(roanokerapids.discharge$mean.daily.discharge)
+roanokerapids.discharge <- roanokerapids.discharge %>%
+  mutate(qrr = ifelse(Date <= as.numeric(roanokerapids.discharge$Date[3196]),
+                      "pre", "post"))
+oakcity.gage$Date <- as.Date(oakcity.gage$Date, format = "%Y-%m-%d")
+oakcity.gage$specific.cond <- as.numeric(oakcity.gage$specific.cond)
+rr.oakcity <- left_join(roanokerapids.discharge, oakcity.gage, by = "Date")
+preQRR <- rr.oakcity %>% filter(qrr == "pre")
+postQRR <- rr.oakcity %>% filter(qrr == "post")
 ```
 
 
 # Rationale and Research Questions
+In June 2016, the US Army Corps of Engineers implemented a new quasi-run-of-river (QRR) flood management regime
+for the Roanoke River. Kerr Dam, near the North Carolina/Virgina border, is managed for flood control and hydropower generation (Hydro Review 2017). Prior to the QRR, the Army Corps held back floodwaters at the Kerr Dam and released them slowly over time, changing short, intense floods into smaller ones with extended periods of floodplain inundation. Working with The Nature Conservancy, Dominion Energy, and other stakeholders, the Army Corps determined that a quasi-run-of-river management regime would produce environmental and flood control benefits without jeopardizing economic returns (Hydro Review 2017).
 
+Under the new QRR management, the Corp is permitted to increase discharges to 25,000 cubic feet per second on a more frequent basis and can discharge up to 35,000 cubic feet per second during extremely wet periods (Lake Gaston Gazette-Observer 2016).
+
+The purpose of this analysis is to:
+
+1) assess any change in mean daily discharges at the Roanoke Rapids gage station before and after the QRR was implemented, and
+
+2) evaluate whether changes in discharge relate to changes in downstream water quality indicators, specifically dissolved oxygen, temperature, and specific conductance.
 
 
 \newpage
 
 # Dataset Information
+Data for this analysis was collected from the United States Geological Survey water data website. The data is from two gage stations: one at Roanoke Rapids (close to Kerr Dam) and the other downstream near Oak City, North Carolina.
 
+The data was scraped from the website using the USGS "dataRetrieval" package in R. The data was processed by changing variables to appropriate data classes, removing extraneous variables, selecting the time frame of interest, and removing non-USGS-approved data points.
+
+The Roanoke Rapids gage data contained values for mean daily discharge (in cubic feet per second), gage height (ft), and the date measured (yy-mm-dd format). The Oak City gage data contained gage height (in feet), dissolved oxygen (mg/L), specific conductance (uS/cm at 25 degrees C), temperature (degrees Celsius), and date measured (yy-mm-dd format). Discharge and water quality values had associated qualification codes with "A" indicating the data was approved by the USGS for publication and "P" indicating provisional data. For the purpose of quality control, provisional measurements were removed from the analysis.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+Discharge <- summary(roanokerapids.discharge$mean.daily.discharge)
+Conductance <- summary(rr.oakcity$specific.cond)
+Dissolved_Oxygen <- summary(rr.oakcity$DO)
+Temperature <- summary(rr.oakcity$temperature)
+DescriptiveStatistics <- rbind(Discharge, Conductance, Dissolved_Oxygen, Temperature)
+kable(DescriptiveStatistics, digits = 0, align = "c", 
+      caption = "Summary of descriptive statistics for discharge and water quality indicators.")
+```
 
 
 \newpage
 
 # Exploratory Analysis 
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.cap= "Point plot of mean daily discharge with color coding emphasizing discharges above 20,000 cubic feet per second. The red, vertical dashed line illustrates the date at which the QRR was implemented."}
+rr.oakcity <- rr.oakcity %>% mutate(over.20k.cfs = ifelse(mean.daily.discharge > 20000, "yes",
+                                                                    "no"))
+ggplot(data = rr.oakcity, aes(x= Date, y= mean.daily.discharge, color = over.20k.cfs)) +
+  geom_point() +
+  ylab(expression(paste("Mean Daily Discharge (ft"^"3","/s)"))) +
+  labs(color = "Over 20,000 cfs?", size = 8) +
+  scale_color_manual(values = c("#999999", "black")) +
+  geom_vline(data = roanokerapids_discharge, 
+             xintercept = as.numeric(roanokerapids.discharge$Date[3196]), color = "red",
+             linetype = 2) +
+  theme(axis.title.y = element_text(size = 11),
+        axis.title.x = element_text(size = 11))
+```
 
+The above plot shows an increase in observed mean daily discharges following the QRR implementation. The number of days where mean daily discharge exceeds 20,000 cfs increases markedly after June 2016.
 
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+preQRR_Discharge <- summary(preQRR$mean.daily.discharge)
+postQRR_Discharge <- summary(postQRR$mean.daily.discharge)
+Discharge_Comparison <- rbind(preQRR_Discharge, postQRR_Discharge)
+kable(Discharge_Comparison, digits = 0, 
+      caption = "Summary of descriptive statistics for mean daily discharge, before and after QRR implementation.")
+```
+
+Comparing the descriptive statistics for discharge before and after the QRR implemented, it is observed that discharge is greater in the later period for each measure of central tendency as well as the maximum and minimum values.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.cap= "A) Violin plots of mean daily discharge (cubic feet per second) at Roanoke Rapids gage before and after quasi-run-of-river (QRR) implementation. B) Boxplots of dissolved oxygen content in milligrams per liter at downstream Oak City gage before and after QRR implementation. C) Boxplots of specific conductance at 25 degrees Celsius at Oak City gage before and after QRR implementation. D) Boxplots of temperature in degrees Celsius at Oak City gage before and after QRR implementation."}
+rr.oakcity$qrr <- factor(rr.oakcity$qrr, levels = c("pre", "post"))
+a <- ggplot(data = rr.oakcity, aes(y= mean.daily.discharge, x= qrr, color = qrr)) +
+  geom_violin() +
+  scale_color_brewer(palette = "Paired", direction = 1) +
+  xlab("") +
+  ylab(expression(paste("Mean Daily Discharge (ft"^"3","/s)"))) +
+  theme(legend.position = "none", axis.title = element_text(size = 10))
+b <- ggplot(data = rr.oakcity, aes(y=DO, x=qrr, color = qrr)) +
+  geom_boxplot() +
+  scale_color_brewer(palette = "Paired", direction = 1) +
+  xlab("") +
+  ylab("Dissolved Oxygen (mg/L)") +
+  theme(legend.position = "none", axis.title = element_text(size = 10))
+c <- ggplot(data = rr.oakcity, aes(y=specific.cond , x=qrr, color = qrr)) +
+  geom_boxplot() +
+  scale_color_brewer(palette = "Paired", direction = 1) +
+  xlab("") +
+  ylab(expression(paste("Specific Conductance at 25",~degree,"C")) ) +
+  theme(legend.position = "none", axis.title = element_text(size = 10))
+d <- ggplot(data = rr.oakcity, aes(y=temperature , x=qrr, color = qrr)) +
+  geom_boxplot() +
+  scale_color_brewer(palette = "Paired", direction = 1) +
+  xlab("") +
+  ylab(expression(paste("Temperature ", ~degree, "C"))) +
+  theme(legend.position = "none", axis.title = element_text(size = 10))
+violin.and.boxplots <- plot_grid(a, b, c, d, nrow = 2, align = 'v', rel_heights = c(1.25, 1),
+                     labels = c('A', 'B', 'C', 'D'), label_x = 0.08)
+violin.and.boxplots
+```
+In plot A, we can observe a clustering of discharge values around 20,000 cfs, which is consistent with what is known about Army Corps management of the Kerr Dam before the QRR implementation. In comparison, the distribution of mean daily discharge post-QRR has a longer right tail as floodwater managers were permitted to release waters up to 35,000 cfs for extreme wet conditions. From boxplots B and D, it is difficult to distinguish whether dissolved oxygen readings or temperature measurements have increased or decreased significantly. The boxplots in plot C suggest that conductance may have decreased from the early period to the post-QRR period.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE}
+preQRR_DissolvedOxygen <- summary(preQRR$DO)
+postQRR_DissolvedOxygen <- summary(postQRR$DO)
+preQRR_Temperature <- summary(preQRR$temperature)
+postQRR_Temperature <- summary(postQRR$temperature)
+preQRR_Conductance <- summary(preQRR$specific.cond)
+postQRR_Conductance <- summary(postQRR$specific.cond)
+
+water.quality.stats <- rbind(preQRR_DissolvedOxygen, postQRR_DissolvedOxygen,
+                             preQRR_Temperature, postQRR_Temperature,
+                             preQRR_Conductance, postQRR_Conductance)
+kable(water.quality.stats, digits = 1,
+      caption = "Descriptive statistics of water quality indicators pre- and post-QRR implementation.")
+```
+
+Between the two periods, average dissolved oxygen decreased slightly, average temperature increased by 1 degree, and conductance decreased by over 10%.
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Scatterplot/correlation matrix of discharge and downstream water quality indicators."}
+scatterplot.matrix <- ggpairs(rr.oakcity, columns = c(4,9,11,12))
+scatterplot.matrix
+```
+
+The scatterplot matrix shows that temperature and dissolved oxygen are highly negatively correlated (corr = -0.94), which is consistent with the understanding that cold water can hold more dissolved oxygen. This is important to consider for later regression analysis as there may be an issue of endogeneity when modeling the influence of discharge on dissolved oxygen. Specific conductance and temperature are moderately negatively correlated (corr = 0.182). Also worth noting are the bimodal distributions of temperature and dissolved oxygen.
 
 \newpage
 
@@ -55,9 +182,12 @@ mainfont: Times New Roman
 
 
 
-## Question 1: <insert specific question here and add additional subsections for additional questions below, if needed>
+## Question 1: Is mean daily discharge at the Roanoke Rapids gage station significantly different between the pre-QRR and post-QRR implementation periods?
 
-## Question 2: 
+
+
+
+## Question 2: How does discharge relate to downstream water quality indicators?
 
 
 
@@ -70,4 +200,9 @@ mainfont: Times New Roman
 \newpage
 
 # References
-<add references here if relevant, otherwise delete this section> 
+
+https://www.hydroreview.com/2017/12/01/knowledge-is-power/
+
+http://www.lakegastongazette-observer.com/news/article_252eafe2-2d87-11e6-b575-6f234f7cf0ee.html
+
+

@@ -52,6 +52,13 @@ dunn.test::dunn.test(roanokerapids.discharge$mean.daily.discharge, roanokerapids
 # Based on results of kruskal-wallis test and boxplots, we can conclude that post-QRR discharges are
 # greater than pre-QRR discharges, which is consistent with the QRR regime and our hypthesis.
 
+## Running regression of discharge on pre-/post-QRR groups
+discharge.regression <- lm(roanokerapids.discharge$mean.daily.discharge ~
+                             roanokerapids.discharge$qrr)
+summary(discharge.regression)
+# Based on statistically significant coefficient (simple linear regression; p-value < 0.05), post-QRR
+# gage readings are associated with 2591.3 cubic feet per second higher discharges than pre-QRR gage readings.
+
 #### Time series analysis
 ## Making time series
 roanokerapids.discharge.ts <- ts(roanokerapids.discharge[[4]], frequency = 365)
