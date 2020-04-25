@@ -91,16 +91,38 @@ rr.oakcity <- left_join(roanokerapids.discharge, oakcity.gage, by = "Date")
 scatterplot.matrix <- ggpairs(rr.oakcity, columns = c(4,9,11,12))
 scatterplot.matrix
 
+## Adding column with log(mean.daily.discharge)
+rr.oakcity <- rr.oakcity %>% mutate(log.discharge = log(mean.daily.discharge))
+
 ## Running regressions
 conductance.regression <- lm(rr.oakcity$specific.cond ~ rr.oakcity$mean.daily.discharge)
 summary(conductance.regression)
+conductance.log.regression <- lm(rr.oakcity$specific.cond ~ rr.oakcity$log.discharge)
+summary(conductance.log.regression)
+
+ggplot(data = rr.oakcity, aes(y= specific.cond, x=log(mean.daily.discharge))) +
+  geom_point() +
+  geom_smooth(method = lm) +
+  xlab("Log Mean Daily Discharge") +
+  ylab(expression(paste("Specific Conductance at 25",~degree,"C")))
+
 # Coeff has p-value < .05; mean daily discharge is a significant predictor of specific conductance
+
 temp.regression <- lm(rr.oakcity$temperature ~ rr.oakcity$mean.daily.discharge)
 summary(temp.regression)
 # Coeff has p-value < .05; mean daily discharge is a significant predictor of temperature
+temp.log.regression <- lm(rr.oakcity$temperature ~ rr.oakcity$log.discharge)
+summary(temp.log.regression)
+
+ggplot(data = rr.oakcity, aes(y=rr.oakcity$temperature, x= rr.oakcity$mean.daily.discharge)) +
+  geom_point() +
+  geom_smooth(method = lm) +
+  xlab("Mean Daily Discharge") +
+  ylab(expression(paste("Temperature (",~degree,"C)")))
+
 DO.regression <- lm(rr.oakcity$DO ~ rr.oakcity$mean.daily.discharge)
 summary(DO.regression)
-# Coeff has p-value < .05; mean daily discharge is a significant predictor of dissolved oxygen
+# Coeff has p-value < .05
 ## The coefficients for all three regressions were very small, indicating a significant but weak trend
 
 DO.temp.interaction.regression <- lm(rr.oakcity$DO ~ rr.oakcity$mean.daily.discharge*rr.oakcity$temperature)

@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2020.1.6)  24 APR 2020 18:49
+This is pdfTeX, Version 3.14159265-2.6-1.40.20 (TeX Live 2019) (preloaded format=pdflatex 2020.1.6)  24 APR 2020 22:22
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -712,15 +712,15 @@ LaTeX Font Info:    External font `lmex10' loaded for size
 \openout6 = `Project_Template.lof'.
 
 [4] [5] [6]
-<"Project_Template_files/figure-latex/""unnamed-chunk-2-1".pdf, id=100, 469.755
+<"Project_Template_files/figure-latex/""unnamed-chunk-2-1".pdf, id=107, 469.755
 pt x 325.215pt>
 File: "Project_Template_files/figure-latex/""unnamed-chunk-2-1".pdf Graphic fil
 e (type pdf)
 <use "Project_Template_files/figure-latex/""unnamed-chunk-2-1".pdf>
 Package pdftex.def Info: "Project_Template_files/figure-latex/""unnamed-chunk-2
--1".pdf  used on input line 181.
+-1".pdf  used on input line 182.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-<"Project_Template_files/figure-latex/""unnamed-chunk-4-1".pdf, id=101, 469.755
+<"Project_Template_files/figure-latex/""unnamed-chunk-4-1".pdf, id=108, 469.755
 pt x 325.215pt>
 File: "Project_Template_files/figure-latex/""unnamed-chunk-4-1".pdf Graphic fil
 e (type pdf)
@@ -734,7 +734,7 @@ Underfull \hbox (badness 10000) in paragraph at lines 215--226
  []
 
 [7 <./Project_Template_files/figure-latex/unnamed-chunk-2-1.pdf>]
-<"Project_Template_files/figure-latex/""unnamed-chunk-6-1".pdf, id=113, 469.755
+<"Project_Template_files/figure-latex/""unnamed-chunk-6-1".pdf, id=120, 469.755
 pt x 325.215pt>
 File: "Project_Template_files/figure-latex/""unnamed-chunk-6-1".pdf Graphic fil
 e (type pdf)
@@ -744,7 +744,7 @@ Package pdftex.def Info: "Project_Template_files/figure-latex/""unnamed-chunk-6
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
 [8 <./Project_Template_files/figure-latex/unnamed-chunk-4-1.pdf>] [9 <./Project
 _Template_files/figure-latex/unnamed-chunk-6-1.pdf>]
-<"Project_Template_files/figure-latex/""unnamed-chunk-7-1".pdf, id=134, 469.755
+<"Project_Template_files/figure-latex/""unnamed-chunk-7-1".pdf, id=142, 469.755
 pt x 325.215pt>
 File: "Project_Template_files/figure-latex/""unnamed-chunk-7-1".pdf Graphic fil
 e (type pdf)
@@ -752,37 +752,59 @@ e (type pdf)
 Package pdftex.def Info: "Project_Template_files/figure-latex/""unnamed-chunk-7
 -1".pdf  used on input line 286.
 (pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
-[10 <./Project_Template_files/figure-latex/unnamed-chunk-7-1.pdf>] [11]
-Underfull \hbox (badness 10000) in paragraph at lines 308--309
-[][]$\T1/lmr/m/n/12 (+20) http : / / www . lakegastongazette -[] observer . com
- / news / article _ 252eafe2 -[] 2d87 -[] 11e6 -[] b575 -[]
- []
-
-Package atveryend Info: Empty hook `BeforeClearDocument' on input line 310.
-[12]
-Package atveryend Info: Empty hook `AfterLastShipout' on input line 310.
+<"Project_Template_files/figure-latex/""unnamed-chunk-10-1".pdf, id=143, 469.75
+5pt x 325.215pt>
+File: "Project_Template_files/figure-latex/""unnamed-chunk-10-1".pdf Graphic fi
+le (type pdf)
+<use "Project_Template_files/figure-latex/""unnamed-chunk-10-1".pdf>
+Package pdftex.def Info: "Project_Template_files/figure-latex/""unnamed-chunk-1
+0-1".pdf  used on input line 316.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+[10 <./Project_Template_files/figure-latex/unnamed-chunk-7-1.pdf>] [11 <./Proje
+ct_Template_files/figure-latex/unnamed-chunk-10-1.pdf>]
+<"Project_Template_files/figure-latex/""unnamed-chunk-12-1".pdf, id=172, 469.75
+5pt x 325.215pt>
+File: "Project_Template_files/figure-latex/""unnamed-chunk-12-1".pdf Graphic fi
+le (type pdf)
+<use "Project_Template_files/figure-latex/""unnamed-chunk-12-1".pdf>
+Package pdftex.def Info: "Project_Template_files/figure-latex/""unnamed-chunk-1
+2-1".pdf  used on input line 335.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+[12 <./Project_Template_files/figure-latex/unnamed-chunk-12-1.pdf>]
+<"Project_Template_files/figure-latex/""unnamed-chunk-14-1".pdf, id=186, 469.75
+5pt x 325.215pt>
+File: "Project_Template_files/figure-latex/""unnamed-chunk-14-1".pdf Graphic fi
+le (type pdf)
+<use "Project_Template_files/figure-latex/""unnamed-chunk-14-1".pdf>
+Package pdftex.def Info: "Project_Template_files/figure-latex/""unnamed-chunk-1
+4-1".pdf  used on input line 351.
+(pdftex.def)             Requested size: 469.75386pt x 325.2142pt.
+[13 <./Project_Template_files/figure-latex/unnamed-chunk-14-1.pdf>] [14]
+Package atveryend Info: Empty hook `BeforeClearDocument' on input line 431.
+[15]
+Package atveryend Info: Empty hook `AfterLastShipout' on input line 431.
 (./Project_Template.aux)
-Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 310.
-Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 310.
+Package atveryend Info: Executing hook `AtVeryEndDocument' on input line 431.
+Package atveryend Info: Executing hook `AtEndAfterFileList' on input line 431.
 Package rerunfilecheck Info: File `Project_Template.out' has not changed.
 (rerunfilecheck)             Checksum: AB094DA81A5EDF16CA89B413727EE496;2183.
  ) 
 Here is how much of TeX's memory you used:
- 12863 strings out of 493610
- 188562 string characters out of 6159294
- 294902 words of memory out of 5000000
- 16740 multiletter control sequences out of 15000+600000
- 53004 words of font info for 87 fonts, out of 8000000 for 9000
+ 12898 strings out of 493610
+ 189814 string characters out of 6159294
+ 294926 words of memory out of 5000000
+ 16755 multiletter control sequences out of 15000+600000
+ 53641 words of font info for 94 fonts, out of 8000000 for 9000
  319 hyphenation exceptions out of 8191
  39i,6n,42p,928b,405s stack positions out of 5000i,500n,10000p,200000b,80000s
 {/usr/local/texlive/2019basic/texmf-dist/fonts/enc/dvips/lm/lm-ec.enc}</usr/l
 ocal/texlive/2019basic/texmf-dist/fonts/type1/public/lm/lmbx12.pfb></usr/local/
 texlive/2019basic/texmf-dist/fonts/type1/public/lm/lmr12.pfb></usr/local/texliv
 e/2019basic/texmf-dist/fonts/type1/public/lm/lmr17.pfb>
-Output written on Project_Template.pdf (12 pages, 1639467 bytes).
+Output written on Project_Template.pdf (15 pages, 2323466 bytes).
 PDF statistics:
- 189 PDF objects out of 1000 (max. 8388607)
- 162 compressed objects within 2 object streams
- 40 named destinations out of 1000 (max. 500000)
- 10325 words of extra memory for PDF output out of 12000 (max. 10000000)
+ 241 PDF objects out of 1000 (max. 8388607)
+ 204 compressed objects within 3 object streams
+ 46 named destinations out of 1000 (max. 500000)
+ 10340 words of extra memory for PDF output out of 12000 (max. 10000000)
 

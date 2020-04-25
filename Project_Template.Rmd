@@ -5,7 +5,7 @@ output:
     fig_caption: yes
     number_sections: yes
 geometry: margin=2.54cm
-title: "Effect of Quasi-Run-of-River Implementation on Roanoke River Discharge and Water Quality"
+title: "Effect of Quasi-Run-of-the-River Implementation on Roanoke River Discharge and Water Quality"
 subtitle: "https://github.com/je138/EDA-project.git"
 author: "Jack Eynon"
 fontsize: 12pt
@@ -59,9 +59,9 @@ postQRR <- rr.oakcity %>% filter(qrr == "post")
 
 # Rationale and Research Questions
 In June 2016, the US Army Corps of Engineers implemented a new quasi-run-of-river (QRR) flood management regime
-for the Roanoke River. Kerr Dam, near the North Carolina/Virgina border, is managed for flood control and hydropower generation (Hydro Review 2017). Prior to the QRR, the Army Corps held back floodwaters at the Kerr Dam and released them slowly over time, changing short, intense floods into smaller ones with extended periods of floodplain inundation. Working with The Nature Conservancy, Dominion Energy, and other stakeholders, the Army Corps determined that a quasi-run-of-river management regime would produce environmental and flood control benefits without jeopardizing economic returns (Hydro Review 2017).
+for the Roanoke River. Kerr Dam, near the North Carolina/Virgina border, is managed for flood control and hydropower generation (Opperman et al. 2017). Prior to the QRR, the Army Corps held back floodwaters at the Kerr Dam and released them slowly over time, changing short, intense floods into smaller ones with extended periods of floodplain inundation. Working with The Nature Conservancy, Dominion Energy, and other stakeholders, the Army Corps determined that a quasi-run-of-the-river management regime would produce environmental and flood control benefits without jeopardizing economic returns (Opperman et al. 2017).
 
-Under the new QRR management, the Corp is permitted to increase discharges to 25,000 cubic feet per second on a more frequent basis and can discharge up to 35,000 cubic feet per second during extremely wet periods (Lake Gaston Gazette-Observer 2016).
+Under the new QRR management, the Corp is permitted to increase discharges to 25,000 cubic feet per second on a more frequent basis and can discharge up to 35,000 cubic feet per second during extremely wet periods (Rose 2016).
 
 The purpose of this analysis is to:
 
@@ -75,7 +75,7 @@ The purpose of this analysis is to:
 # Dataset Information
 Data for this analysis was collected from the United States Geological Survey water data website. The data is from two gage stations: one at Roanoke Rapids (close to Kerr Dam) and the other downstream near Oak City, North Carolina.
 
-The data was scraped from the website using the USGS "dataRetrieval" package in R. The data was processed by changing variables to appropriate data classes, removing extraneous variables, selecting the time frame of interest, and removing non-USGS-approved data points.
+The data was scraped from the water data website using the USGS "dataRetrieval" package in R. The data was processed by changing variables to appropriate data classes, removing extraneous variables, selecting the time frame of interest, and removing non-USGS-approved data points.
 
 The Roanoke Rapids gage data contained values for mean daily discharge (in cubic feet per second), gage height (ft), and the date measured (yy-mm-dd format). The Oak City gage data contained gage height (in feet), dissolved oxygen (mg/L), specific conductance (uS/cm at 25 degrees C), temperature (degrees Celsius), and date measured (yy-mm-dd format). Discharge and water quality values had associated qualification codes with "A" indicating the data was approved by the USGS for publication and "P" indicating provisional data. For the purpose of quality control, provisional measurements were removed from the analysis.
 
@@ -93,7 +93,7 @@ kable(DescriptiveStatistics, digits = 0, align = "c",
 \newpage
 
 # Exploratory Analysis 
-```{r echo=FALSE, message=FALSE, warning=FALSE, fig.cap= "Point plot of mean daily discharge with color coding emphasizing discharges above 20,000 cubic feet per second. The red, vertical dashed line illustrates the date at which the QRR was implemented."}
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.cap= "Scatterplot of mean daily discharge with observations above 20,000 cubic feet per second shown in black. The red, vertical dashed line illustrates the date the QRR was implemented."}
 rr.oakcity <- rr.oakcity %>% mutate(over.20k.cfs = ifelse(mean.daily.discharge > 20000, "yes",
                                                                     "no"))
 ggplot(data = rr.oakcity, aes(x= Date, y= mean.daily.discharge, color = over.20k.cfs)) +
@@ -118,7 +118,7 @@ kable(Discharge_Comparison, digits = 0,
       caption = "Summary of descriptive statistics for mean daily discharge, before and after QRR implementation.")
 ```
 
-Comparing the descriptive statistics for discharge before and after the QRR implemented, it is observed that discharge is greater in the later period for each measure of central tendency as well as the maximum and minimum values.
+Comparing the descriptive statistics for discharge before and after QRR implementation, it can be seen that discharge is greater in the later period for each measure of central tendency as well as the maximum and minimum values.
 
 ```{r echo=FALSE, message=FALSE, warning=FALSE, fig.cap= "A) Violin plots of mean daily discharge (cubic feet per second) at Roanoke Rapids gage before and after quasi-run-of-river (QRR) implementation. B) Boxplots of dissolved oxygen content in milligrams per liter at downstream Oak City gage before and after QRR implementation. C) Boxplots of specific conductance at 25 degrees Celsius at Oak City gage before and after QRR implementation. D) Boxplots of temperature in degrees Celsius at Oak City gage before and after QRR implementation."}
 rr.oakcity$qrr <- factor(rr.oakcity$qrr, levels = c("pre", "post"))
@@ -184,7 +184,7 @@ The scatterplot matrix shows that temperature and dissolved oxygen are highly ne
 
 ## Question 1: Is mean daily discharge at the Roanoke Rapids gage station significantly different between the pre-QRR and post-QRR implementation periods?
 
-```{r echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Line graph of mean daily discharge over time with time series trend (red) and line of best fit for trend (blue)."}
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Line graph of mean daily discharge over time with time series trend (red) and line of best fit for original data (blue)."}
 #### Time series analysis
 ## Making time series
 roanokerapids.discharge.ts <- ts(roanokerapids.discharge[[4]], frequency = 365)
@@ -199,36 +199,141 @@ roanoke.ts.components <- roanoke.ts.components %>%
   mutate(original = roanokerapids.discharge$mean.daily.discharge,
          Date = roanokerapids.discharge$Date)
 
-discharge.regression <- lm(rr.oakcity$mean.daily.discharge ~ rr.oakcity$qrr)
-summary(discharge.regression)
-
 ## Graphing original data with trend
 ggplot(roanoke.ts.components) +
   geom_line(aes(x= Date, y=original)) +
-  geom_smooth(aes(x= Date, y= trend), method = lm) +
+  geom_smooth(aes(x= Date, y= original), method = lm) +
   geom_line(aes(x=Date, y=trend), color = "red") +
   ylab(expression(paste("Discharge (ft"^"3","/s)")))
 ```
 
-The above line graph shows a red trend line from the decomposed time series of mean daily discharge at the Roanoke Rapids gage station. The blue line of best fit for the trend line illustrates a positive trend in mean daily discharge.
+The above line graph shows a red trend line from the decomposed time series of mean daily discharge at the Roanoke Rapids gage station. The blue line of best fit for the discharge data illustrates a positive trend in mean daily discharge.
+
+```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
+preQRR.discharge <- roanokerapids.discharge %>% filter(qrr == "pre")
+postQRR.discharge <- roanokerapids.discharge %>% filter(qrr == "post")
+
+## Checking for normality
+shapiro.test(preQRR.discharge$mean.daily.discharge) ## p-value < 0.05, not well approx. by normal distribution
+shapiro.test(postQRR.discharge$mean.daily.discharge) ## p-value < 0.05, not well approx. by normal distribution
+
+## Testing for equal variance
+bartlett.test(roanokerapids.discharge$mean.daily.discharge ~ roanokerapids.discharge$qrr)
+# p-value < 0.05; reject null hypothesis of equal variance; one variance is not equal to the other
+
+## Assumptions of normality and equal variance are violated; will run non-parametric Kruskal-Wallis test
+discharge.kw <- kruskal.test(roanokerapids.discharge$mean.daily.discharge ~
+                               roanokerapids.discharge$qrr)
+discharge.kw
+# With a p-value < 0.05, we can reject the null hypothesis and conclude that mean daily discharge is
+# different pre- and post-QRR implementation
+
+## Post-hoc Dunn test
+dunn.test::dunn.test(roanokerapids.discharge$mean.daily.discharge, roanokerapids.discharge$qrr)
+# p-value < 0.05 confirms that mean daily discharges differ significantly in time periods
+# Based on results of kruskal-wallis test and boxplots, we can conclude that post-QRR discharges are
+# greater than pre-QRR discharges, which is consistent with the QRR regime and our hypthesis.
+```
+
+
+Given that mean daily discharges before and after implementation of the QRR were not normally distributed and did not exhibit equal variance, a non-parametric one-way ANOVA was used to compare the two groups. The results indicated that mean daily discharge after implementation of the QRR is statistically different from mean daily discharge before QRR implementation (Kruskal-Wallis; df = 1; chi-squared = 71.7; p-value < 0.0001).
+
+In light of this finding and the preliminary exploration of the mean daily discharge distributions, it can be concluded that mean daily discharge after the implementation of the QRR regime is significantly greater than mean daily discharge before its implementation.
 
 
 ## Question 2: How does discharge relate to downstream water quality indicators?
 
+```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
+## Adding column with log(mean.daily.discharge)
+rr.oakcity <- rr.oakcity %>% mutate(log.discharge = log(mean.daily.discharge))
+
+## Running regressions
+conductance.regression <- lm(rr.oakcity$specific.cond ~ rr.oakcity$mean.daily.discharge)
+summary(conductance.regression)
+conductance.log.regression <- lm(rr.oakcity$specific.cond ~ rr.oakcity$log.discharge)
+summary(conductance.log.regression)
+```
 
 
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Regression of specific conductance on log mean daily discharge."}
+
+ggplot(data = rr.oakcity, aes(y= specific.cond, x=log(mean.daily.discharge))) +
+  geom_point() +
+  geom_smooth(method = lm) +
+  xlab("Log Mean Daily Discharge") +
+  ylab(expression(paste("Specific Conductance at 25",~degree,"C")))
+```
+
+A log transformation of mean daily discharge resulted in a better model fit when regressing specific conductance on discharge (R2 = 0.43 vs. R2 = 0.39). Based on the regression results, there is a significant negative relationship between mean daily discharge and specific conductance at 25 degrees celsius, and mean daily discharge accounts for about 43% of the total variance in specific conductance (simple linear regression; R2 = 0.43; df = 4315; p-value < .0001). Furthermore, a 1% increase in mean daily discharge is associated with a decrease in specific conductance of about 0.12 uS/cm.
+
+\newpage
+
+```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
+temp.regression <- lm(rr.oakcity$temperature ~ rr.oakcity$mean.daily.discharge)
+summary(temp.regression)
+# Coeff has p-value < .05; mean daily discharge is a significant predictor of temperature
+temp.log.regression <- lm(rr.oakcity$temperature ~ rr.oakcity$log.discharge)
+summary(temp.log.regression)
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Regression of temperature on mean daily discharge."}
+ggplot(data = rr.oakcity, aes(y=rr.oakcity$temperature, x= rr.oakcity$mean.daily.discharge)) +
+  geom_point() +
+  geom_smooth(method = lm) +
+  xlab("Mean Daily Discharge") +
+  ylab(expression(paste("Temperature (",~degree,"C)")))
+```
+
+
+Based on the results of regressing temperature on mean daily discharge, there is a statistically significant, but very weak negative relationship between mean daily discharge and temperature (simple linear regression; R2 = 0.06; df = 4475; p-value < .0001). A one cubic foot per second increase in mean daily discharge is associated with a 0.0002 degree Celsius decrease in temperature. The model accounts for only 6% of the total variance in temperature.
+
+\newpage
+
+```{r eval=FALSE, message=FALSE, warning=FALSE, include=FALSE}
+DO.regression <- lm(rr.oakcity$DO ~ rr.oakcity$mean.daily.discharge)
+summary(DO.regression)
+# Coeff has p-value < .05
+## The coefficients for all three regressions were very small, indicating a significant but weak trend
+
+DO.temp.interaction.regression <- lm(rr.oakcity$DO ~ rr.oakcity$mean.daily.discharge*rr.oakcity$temperature)
+summary(DO.temp.interaction.regression)
+## Mean daily discharge is no longer a significant predictor of dissolved oxygen when interaction between
+## temp and discharge is included
+```
+
+```{r echo=FALSE, message=FALSE, warning=FALSE, fig.cap="Regression of dissolved oxygen on mean daily discharge with no interaction effect."}
+ggplot(data = rr.oakcity, aes(x= mean.daily.discharge, y= DO)) +
+  geom_point() +
+  geom_smooth(method = lm) +
+  ylab("Dissolved Oxygen (mg/L)") +
+  xlab("Mean Daily Discharge")
+```
+
+
+
+Due the high degree of correlation between temperature and dissolved oxygen, an interaction effect between temperature and discharge was incorporated into the regression analysis for dissolved oxygen. Whereas the first model (without an interaction effect; pictured above) indicated a statistically significant relationship between discharge and dissolved oxygen, the improved model showed no significant relationship between the two variables (simple linear regression; R2 = 0.90; df = 4333; p-value < .0001). The coefficient for mean daily discharge was very close to zero with a statistically insignificant p-value. However, due to the inclusion of temperature as a predictor, the model still predicted around 90% of the total variance in dissolved oxygen.
 
 \newpage
 
 # Summary and Conclusions
 
+Based on the results of a non-parametric one-way ANOVA test, there is strong evidence to suggest that average daily discharges at the Roanoke Rapids gage station increased with the introduction of the quasi-run-of-the-river floodwater management regime. This result may be unsurprising given that the QRR regime increases the maximum level of discharges that managers are permitted to release during extreme wet conditions. However, we might also expect that the management regime would not change the volume of water that must be released each year, so the findings are interesting in that respect.
+
+As for the second research question, the results suggested that discharge may be a good predictor of specific conductance. Based on the regression model, discharge could be used to predict about 43% of the total variation in conductance. However, this level of analysis is not sufficient to determine whether there is a causal relationship between discharge and conductance.
+
+The results of the temperature regression model provide only weak evidence of a relationship between discharge and temperature. Although the discharge coefficient was statistically significant, its magnitude near zero does not suggest a strong relationship between the two variables. There may be confounding factors, like weather patterns, for example, that influence both temperature and discharge.
+
+Finally, based on the analysis, there is no evidence to suggest that discharge is a good predictor of dissolved oxygen. Whereas preliminary modeling suggested a significant, albeit weak, relationship between discharge and dissolved oxygen, there was no significant relationship present after accounting for the effect of temperature on dissolved oxygen.
+
+The analysis would be made more robust by including additional variables that might explain variation in water quality indicators. Factors like weather or climate, land use along the Roanoke, and biological factors were not included in this analysis but are likely to impact water temperature, dissolved oxygen, and specific conductance. If those factors were built into a random effects model along with discharge as an independent variable, we might get a better sense of the true influence of discharge on those indicators.
+
+Another strategy to consider would be to introduce lag into the models, since it may take time for changes in discharge to effect indicators downstream. Removing the seasonality in the data might also provide a clearer view of the effect of discharge on water quality indicators.
 
 \newpage
 
 # References
 
-https://www.hydroreview.com/2017/12/01/knowledge-is-power/
+Opperman, J., Lakly, M., Peoples, C., Gastelumendi , J., & Paiz, M.-C. (2017, December 1). Knowledge is Power - Hydro Review. Retrieved from https://www.hydroreview.com/2017/12/01/knowledge-is-power/
 
-http://www.lakegastongazette-observer.com/news/article_252eafe2-2d87-11e6-b575-6f234f7cf0ee.html
-
+Rose, D. (2016, June 8). Army Corp approves QRR. Retrieved from http://www.lakegastongazette-observer.com/news/article_252eafe2-2d87-11e6-b575-6f234f7cf0ee.html
 
